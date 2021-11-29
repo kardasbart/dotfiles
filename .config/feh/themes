@@ -1,0 +1,2 @@
+img --keep-zoom-vp --preload --force-aliasing --image-bg "#4f7942" --auto-zoom
+imgf --fullscreen --keep-zoom-vp --preload --force-aliasing --image-bg "#4f7942" --auto-zoom
