@@ -35,6 +35,10 @@ function revsort2() {
     ls $@ | rev|sort|rev
 }
 
+function config-token() {
+    config remote set-url origin https://kardasbart:"$1"@github.com/kardasbart/dotfiles.git
+}
+
 # Aliases
 
 alias pc="noglob pc"
