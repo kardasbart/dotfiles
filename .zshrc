@@ -67,7 +67,6 @@ plugins=(
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 	dirhistory
-	zsh-history-substring-search
 )
 
 source $ZSH/oh-my-zsh.sh
