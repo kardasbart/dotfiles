@@ -110,4 +110,4 @@ fi
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 config config --local status.showUntrackedFiles no
 git config --global core.excludesfile ~/.gitignore
-
+TIMEFMT=$'================\nCPU\t%P\ntotal\t%*E'
