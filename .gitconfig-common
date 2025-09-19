@@ -1,5 +1,6 @@
 [alias]
-    lg = ! git log --color=always --graph --pretty=format:'%<|(4)%C(bold red)%%h%Creset - %C(green)%<|(14)(%cs)%Creset %C(brightblue)<%an>%<|(45)%Creset %s _NL_             %C(bold yellow)%d%Creset _LN_' | sed -e 's/_NL_\\(.*(.*).*\\)_LN_/\\n\\1/' -e 's/_NL.*$//' | less
+    lgl = log --color=always --graph --pretty=format:'%<|(4)%C(bold red)%%h%Creset - %<(30,trunc)%s %C(green)%<|(14)%cs%Creset %C(brightblue)%<(15,trunc)%an%Creset %C(bold yellow)%(decorate:separator= )%Creset'
+    lg = ! git log --color=always --graph --pretty=format:'%<|(4)%C(bold red)%%h%Creset - %<(30,trunc)%s %C(green)%<|(14)%cs%Creset %C(brightblue)%<(15,trunc)%an%Creset %n%C(bold yellow)%<|(13)%x20%(decorate:separator= )%Creset' | sed -e 's/\\(.*[-\\/].*\\)/\\1_LN_/' | grep _LN_ | sed 's/_LN_.*$//' | less
 
 [includeIf "gitdir:~/personal/"]
     path = .gitconfig-personal
