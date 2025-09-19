@@ -1,2 +1,2 @@
-imgf --draw-filename --keep-zoom-vp --preload --force-aliasing --image-bg "#4f7942" --auto-zoom
-img --draw-filename --fullscreen --keep-zoom-vp --preload --force-aliasing --image-bg "#4f7942" --auto-zoom
+imgf --draw-filename --keep-zoom-vp --force-aliasing --image-bg "#4f7942" --auto-zoom
+img --draw-filename --fullscreen --keep-zoom-vp --force-aliasing --image-bg "#4f7942" --auto-zoom

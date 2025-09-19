@@ -39,6 +39,11 @@ function config-token() {
     config remote set-url origin https://kardasbart:"$1"@github.com/kardasbart/dotfiles.git
 }
 
+function dtd() {
+    nohup "$@" </dev/null >/dev/null 2>&1 &
+    disown
+}
+
 # Aliases
 
 alias pc="noglob pc"
