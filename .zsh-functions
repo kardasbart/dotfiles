@@ -58,4 +58,4 @@ function dtd() {
 alias pc="noglob pc"
 alias pycalc='noglob pycalc'
 alias winpath='noglob winpath'
-alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
+alias config="/usr/bin/git --git-dir=$HOME/personal/.cfg/ --work-tree=$HOME"

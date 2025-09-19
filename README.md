@@ -12,7 +12,8 @@ Idea to make this repo is from https://www.atlassian.com/git/tutorials/dotfiles
 
 # Setup
 ```
-git clone --bare git@github.com:kardasbart/dotfiles.git $HOME/.cfg
+git clone --bare git@github.com:kardasbart/dotfiles.git $HOME/personal/.cfg
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 config checkout
+echo "[include]\n\tpath = ~/.gitconfig-common" >> ~/.gitconfig
 ```
