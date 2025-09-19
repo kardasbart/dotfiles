@@ -69,6 +69,7 @@ plugins=(
 	dirhistory
 )
 
+source $HOME/.zsh-functions
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -98,18 +99,16 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 alias zshconfig="vim ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ohmyzsh="vim ~/.oh-my-zsh"
 #
 
-source $HOME/.zsh-functions
 
 if [[ -f $HOME/.zsh-custom ]]; then
     source $HOME/.zsh-custom
 fi
 
-alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 config config --local status.showUntrackedFiles no
 git config --global core.excludesfile ~/.gitignore
-alias fd="fd ---full-path"
-alias rsort="rev|sort|rev"
 TIMEFMT=$'================\nCPU\t%P\ntotal\t%*E'
+PROMPT="$(is_ssh)$PROMPT"
+

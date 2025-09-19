@@ -1,5 +1,14 @@
 # Functions
 
+function is_ssh {
+    local ssh_result="$(who am i | cut -d":" -f 2 | cut -c 4- | sed -e "s/([[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+)/yes/g")"
+    [[ $ssh_result == "yes" ]] && printf "SSH "
+}
+
+function winpath {
+    printf '%s\n' "$@" | sed -e 's/\\/\//g' |  sed 's/\(.*\):\//\/mnt\/\L\1\//g'  
+}
+
 function pc {
     python - \
 <<EOF
@@ -48,3 +57,4 @@ function dtd() {
 
 alias pc="noglob pc"
 alias pycalc='noglob pycalc'
+alias winpath='noglob winpath'
