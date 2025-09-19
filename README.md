@@ -10,3 +10,8 @@ git clone --bare <git-repo-url> $HOME/.cfg
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 config checkout
 ```
+# Requirements
+* zsh
+* oh-my-zsh
+* tmux
+* feh
