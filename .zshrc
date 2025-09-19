@@ -2,7 +2,7 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="$HOME/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -64,13 +64,10 @@ HIST_STAMPS="dd.mm.yyyy"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	git
-	tmux
-	docker
-	archlinux
-	zsh_reload
-	adb
 	zsh-autosuggestions
 	zsh-syntax-highlighting
+	dirhistory
+	zsh-history-substring-search
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -105,5 +102,10 @@ alias zshconfig="vim ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
-source ~/.zsh-functions
-alias config='/usr/bin/git --git-dir=/home/bartek/.cfg/ --work-tree=/home/bartek'
+source $HOME/.zsh-functions
+
+if [[ -f $HOME/.zsh-custom ]]; then
+    source $HOME/.zsh-custom
+fi
+
+alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
