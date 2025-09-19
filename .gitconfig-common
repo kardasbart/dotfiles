@@ -1,5 +1,5 @@
 [alias]
-    lg = log --color=always --graph --pretty=format:'%<|(4)%C(bold red)%%h%Creset - %C(green)%<|(14)(%cs)%Creset %C(brightblue)<%an>%<|(45)%Creset %s%C(bold yellow)%d%Creset'
+    lg = ! git log --color=always --graph --pretty=format:'%<|(4)%C(bold red)%%h%Creset - %C(green)%<|(14)(%cs)%Creset %C(brightblue)<%an>%<|(45)%Creset %s _NL_             %C(bold yellow)%d%Creset _LN_' | sed -e 's/_NL_\\(.*(.*).*\\)_LN_/\\n\\1/' -e 's/_NL.*$//' | less
 
 [includeIf "gitdir:~/personal/"]
     path = .gitconfig-personal
