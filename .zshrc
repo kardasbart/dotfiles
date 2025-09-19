@@ -112,3 +112,5 @@ git config --global core.excludesfile ~/.gitignore
 TIMEFMT=$'================\nCPU\t%P\ntotal\t%*E'
 PROMPT="$(is_ssh)$PROMPT"
 
+
+. "$HOME/.local/bin/env"
