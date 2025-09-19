@@ -1,2 +1,5 @@
+[alias]
+    lg = log --color=always --graph --pretty=format:'%<|(4)%C(bold red)%%h%Creset - %C(green)%<|(14)(%cs)%Creset %C(brightblue)<%an>%<|(45)%Creset %s%C(bold yellow)%d%Creset'
+
 [includeIf "gitdir:~/personal/"]
     path = .gitconfig-personal
