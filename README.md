@@ -16,4 +16,7 @@ git clone --bare git@github.com:kardasbart/dotfiles.git $HOME/personal/.cfg
 alias config='/usr/bin/git --git-dir=$HOME/personal/.cfg/ --work-tree=$HOME'
 config checkout -f
 echo "[include]\n\tpath = ~/.gitconfig-common" >> ~/.gitconfig
+
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
