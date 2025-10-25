@@ -13,7 +13,7 @@ Idea to make this repo is from https://www.atlassian.com/git/tutorials/dotfiles
 # Setup
 ```
 git clone --bare git@github.com:kardasbart/dotfiles.git $HOME/personal/.cfg
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-config checkout
+alias config='/usr/bin/git --git-dir=$HOME/personal/.cfg/ --work-tree=$HOME'
+config checkout -f
 echo "[include]\n\tpath = ~/.gitconfig-common" >> ~/.gitconfig
 ```
