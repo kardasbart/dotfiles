@@ -59,4 +59,4 @@ alias pc="noglob pc"
 alias pycalc='noglob pycalc'
 alias winpath='noglob winpath'
 alias config="/usr/bin/git --git-dir=$HOME/personal/.cfg/ --work-tree=$HOME"
-alias mpi="mpv --image-display-duration=inf --loop-playlist=inf --script-opts=sync_pos-mode=image"
+alias mpi="mpv --image-display-duration=inf --script-opts=sync_pos-mode=image"
