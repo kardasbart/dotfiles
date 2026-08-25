@@ -102,7 +102,6 @@ alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 #
 
-
 if [[ -f $HOME/.zsh-custom ]]; then
     source $HOME/.zsh-custom
 fi
@@ -112,3 +111,7 @@ git config --global core.excludesfile ~/.gitignore
 TIMEFMT=$'================\nCPU\t%P\ntotal\t%*E'
 PROMPT="$(is_ssh)$PROMPT"
 
+# Automatyczne uruchamianie tmux w bieżącym katalogu
+if [ -z "$TMUX" ] && [ -n "$PS1" ] && command -v tmux >/dev/null 2>&1; then
+  exec tmux new-session -c "$PWD"
+fi
