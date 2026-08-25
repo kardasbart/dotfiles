@@ -9,6 +9,7 @@ Idea to make this repo is from https://www.atlassian.com/git/tutorials/dotfiles
 * oh-my-zsh
 * tmux
 * feh
+* mpv
 
 # Setup
 
@@ -25,7 +26,7 @@ wget -qO- [https://raw.githubusercontent.com/kardasbart/dotfiles/main/setup.sh](
 
 ```bash
 # Install requirements
-sudo apt update && sudo apt install -y zsh tmux feh curl git
+sudo apt update && sudo apt install -y zsh tmux feh curl git mpv
 sh -c "$(curl -fsSL [https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh](https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh))"
 chsh -s $(which zsh)
 
@@ -61,8 +62,12 @@ You can verify the entire setup inside an isolated container using either **Podm
 # Install Podman
 sudo apt update && sudo apt install -y podman
 
-# Build and run the test suite
+# Build the test suite
 podman build -t dotfiles-test .
+# or local version of the files
+# podman build --build-arg LOCAL=true -t dotfiles-test .
+
+# Run the test suite
 podman run --rm dotfiles-test
 
 ```

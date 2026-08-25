@@ -32,6 +32,31 @@ assert_dir_exists() {
     fi
 }
 
+assert_file_exists() {
+    local file=$1
+    local label=$2
+    if [ -f "$file" ]; then
+        echo "[PASS] $label file exists ($file)."
+        PASSED=$((PASSED + 1))
+    else
+        echo "[FAIL] $label file does NOT exist ($file)!"
+        FAILED=$((FAILED + 1))
+    fi
+}
+
+assert_symlink_target() {
+    local link=$1
+    local expected_target=$2
+    local label=$3
+    if [ -L "$link" ] && [ "$(readlink "$link")" = "$expected_target" ]; then
+        echo "[PASS] Symlink '$label' correctly points to $expected_target."
+        PASSED=$((PASSED + 1))
+    else
+        echo "[FAIL] Symlink '$label' ($link) does NOT point to $expected_target!"
+        FAILED=$((FAILED + 1))
+    fi
+}
+
 assert_file_contains() {
     local file=$1
     local pattern=$2
@@ -45,7 +70,19 @@ assert_file_contains() {
     fi
 }
 
-# 1. Test required binaries
+assert_file_not_exists() {
+    local file=$1
+    local label=$2
+    if [ ! -e "$file" ]; then
+        echo "[PASS] $label is correctly absent from $HOME."
+        PASSED=$((PASSED + 1))
+    else
+        echo "[FAIL] $label unexpectedly exists in $HOME (sparse-checkout failed)!"
+        FAILED=$((FAILED + 1))
+    fi
+}
+
+# 1. Test binaries
 echo ""
 echo "--> Testing required binaries..."
 assert_installed zsh
@@ -53,8 +90,9 @@ assert_installed tmux
 assert_installed feh
 assert_installed curl
 assert_installed git
+assert_installed mpv
 
-# 2. Test installation directories & repositories
+# 2. Test directories
 echo ""
 echo "--> Testing installation directories..."
 assert_dir_exists "$HOME/.oh-my-zsh" "Oh My Zsh"
@@ -63,10 +101,25 @@ assert_dir_exists "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosugges
 assert_dir_exists "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" "Zsh Syntax Highlighting plugin"
 assert_dir_exists "$HOME/.tmux/plugins/tpm" "Tmux Plugin Manager (TPM)"
 
-# 3. Test configurations
+# 3. Test symlinks & user configuration files
 echo ""
-echo "--> Testing configuration settings..."
+echo "--> Testing executable symlinks and config files..."
+assert_symlink_target "$HOME/.local/bin/img" "/usr/bin/feh" "img executable symlink"
+assert_symlink_target "$HOME/.local/bin/imgf" "/usr/bin/feh" "imgf executable symlink"
+assert_file_exists "$HOME/.config/feh/themes" "feh themes config"
+assert_file_exists "$HOME/.config/mpv/input.conf" "mpv input.conf"
+assert_file_exists "$HOME/.config/mpv/mpv.conf" "mpv mpv.conf"
+
+# 4. Test configurations & sparse-checkout exclusion rules
+echo ""
+echo "--> Testing configuration settings & sparse-checkout..."
 assert_file_contains "$HOME/.zshrc" "alias config=" "Alias 'config'"
+
+# Verify repository-only files are excluded from $HOME by sparse-checkout
+assert_file_not_exists "$HOME/README.md" "README.md"
+assert_file_not_exists "$HOME/setup.sh" "setup.sh"
+assert_file_not_exists "$HOME/test.sh" "test.sh"
+assert_file_not_exists "$HOME/Dockerfile" "Dockerfile"
 
 GIT_INCLUDE=$(git config --global --get include.path || true)
 if [ "$GIT_INCLUDE" = "~/.gitconfig-common" ]; then

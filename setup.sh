@@ -3,6 +3,21 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+# Parse command line arguments
+REPO_SRC="https://github.com/kardasbart/dotfiles.git"
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --local|-l)
+      REPO_SRC="${2:-$PWD}"
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
 echo "=========================================="
 echo " Starting workstation setup script..."
 echo "=========================================="
@@ -10,7 +25,7 @@ echo "=========================================="
 # 1. Update package lists and install dependencies
 echo "==> Updating package lists and installing dependencies..."
 sudo apt update
-sudo apt install -y zsh tmux feh curl git
+sudo apt install -y zsh tmux feh curl git mpv
 
 # 2. Install Oh My Zsh via Git clone (bypasses HTTP 429 rate limits)
 echo "==> Installing Oh My Zsh..."
@@ -31,13 +46,13 @@ if [ "$SHELL" != "$ZSH_PATH" ]; then
     sudo usermod -s "$ZSH_PATH" "$CURRENT_USER"
 fi
 
-# 4. Clone and set up dotfiles repository (bare repo + sparse-checkout)
-echo "==> Setting up dotfiles..."
+# 4. Clone and set up dotfiles repository
+echo "==> Setting up dotfiles from source: $REPO_SRC..."
 mkdir -p "$HOME/personal"
 CFG_DIR="$HOME/personal/.cfg"
 
 if [ ! -d "$CFG_DIR" ]; then
-    git clone --bare https://github.com/kardasbart/dotfiles.git "$CFG_DIR"
+    git clone --bare --no-hardlinks "$REPO_SRC" "$CFG_DIR"
 fi
 
 # Configure sparse-checkout to prevent repo files (README, setup.sh, etc.) from cluttering $HOME
