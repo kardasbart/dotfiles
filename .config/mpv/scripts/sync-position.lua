@@ -15,6 +15,7 @@ local saved_pause = false
 local busy = false
 
 local function navigate(direction)
+    -- Ignorowanie nowych zdarzeń, jeśli obecny plik jeszcze się nie wyrenderował
     if busy then return end
     busy = true
 
@@ -28,10 +29,11 @@ local function navigate(direction)
     mp.command("playlist-" .. direction)
 end
 
-mp.add_key_binding(nil, "sync-next", function() navigate("next") end)
-mp.add_key_binding(nil, "sync-prev", function() navigate("prev") end)
+-- Włączenie obsługi przytrzymania klawisza ({repeatable = true})
+mp.add_key_binding(nil, "sync-next", function() navigate("next") end, {repeatable = true})
+mp.add_key_binding(nil, "sync-prev", function() navigate("prev") end, {repeatable = true})
 
--- Ustawienie pozycji startowej PRZED wczytaniem silnika wideo
+-- Ustawienie pozycji startowej PRZED wczytaniem silnika wideo (dla wideo)
 mp.register_event("start-file", function()
     if opts.mode == "video" and saved_pos then
         mp.set_property("file-local-options/start", tostring(saved_pos))
@@ -40,19 +42,21 @@ mp.register_event("start-file", function()
     end
 end)
 
--- Wznowienie pracy dopiero po pełnym zainicjowaniu bufora i klatki
+-- Zdarzenie wyrenderowania nowej klatki/obrazu
 mp.register_event("playback-restart", function()
     if opts.mode == "video" and saved_pos then
         local should_pause = saved_pause
         saved_pos = nil
 
-        -- Bufor czasowy zapobiegający mruganiu przy powolnym dekodowaniu
+        -- Bufor czasowy zapobiegający mruganiu w wideo
         mp.add_timeout(0.12, function()
             mp.set_property_bool("pause", should_pause)
             busy = false
         end)
     else
+        -- DLA OBRAZÓW: Natychmiastowe zdjęcie blokady w momencie wyświetlenia obrazu
         saved_pos = nil
         busy = false
     end
 end)
+
