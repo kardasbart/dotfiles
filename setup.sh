@@ -66,11 +66,29 @@ if command -v zsh >/dev/null 2>&1; then
             sudo chsh -s "$ZSH_PATH" "$(whoami)" || echo "Nie udało się zmienić powłoki za pomocą sudo."
         else
             echo "Próbuję zmienić domyślną powłokę (bez sudo)..."
-            chsh -s "$ZSH_PATH" || echo "UWAGA: Brak uprawnień do chsh. Dodaj 'exec zsh' na początku ~/.bashrc, aby zsh uruchamiał się sam."
+            if ! chsh -s "$ZSH_PATH"; then
+                echo "UWAGA: chsh odrzuciło powłokę (prawdopodobnie brak wpisu w /etc/shells)."
+                echo "Konfiguruję automatyczny fallback do Zsh w ~/.bashrc..."
+                
+                # Bezpieczny skrypt przełączający
+                BASHRC_FALLBACK="
+# Dotfiles: Zsh fallback (odpala Zsh automatycznie, jesli chsh zawiodlo)
+if [ -x \"$ZSH_PATH\" ] && [ \"\$SHELL\" != \"$ZSH_PATH\" ]; then
+    export SHELL=\"$ZSH_PATH\"
+    exec \"$ZSH_PATH\" -l
+fi
+"
+                # Dodaj tylko jeśli jeszcze tego nie ma
+                if ! grep -q "Dotfiles: Zsh fallback" "$HOME/.bashrc" 2>/dev/null; then
+                    echo "$BASHRC_FALLBACK" >> "$HOME/.bashrc"
+                    echo "Sukces: Dodano instrukcję przełączania na Zsh do ~/.bashrc."
+                else
+                    echo "Instrukcja przełączania już istnieje w ~/.bashrc."
+                fi
+            fi
         fi
     fi
 fi
-
 # 5. Konfiguracja dotfiles (Bare repo)
 echo "==> Setting up dotfiles from source: $REPO_SRC..."
 mkdir -p "$HOME/personal"
