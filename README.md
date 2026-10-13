@@ -18,7 +18,7 @@ Idea to make this repo is from https://www.atlassian.com/git/tutorials/dotfiles
 Run the installation script directly from GitHub using `wget` (pre-installed on Ubuntu 24.04):
 
 ```bash
-wget -qO- [https://raw.githubusercontent.com/kardasbart/dotfiles/main/setup.sh](https://raw.githubusercontent.com/kardasbart/dotfiles/main/setup.sh) | bash
+bash -c "$(wget -qO- https://raw.githubusercontent.com/kardasbart/dotfiles/main/setup.sh)" -- --server
 
 ```
 
