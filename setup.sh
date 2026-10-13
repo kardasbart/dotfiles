@@ -155,6 +155,24 @@ ZSH_CUSTOM_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 [ ! -d "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM_DIR/plugins/zsh-syntax-highlighting" || true
 [ ! -d "$HOME/.tmux/plugins/tpm" ] && git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm" || true
 
+# 9. Dodanie wizualnego oznaczenia SSH w Tmux
+echo "==> Configuring Tmux SSH status bar highlight..."
+TMUX_CONF="$HOME/.tmux.conf"
+touch "$TMUX_CONF" # Upewniamy się, że plik istnieje
+
+if ! grep -q "SSH_CLIENT" "$TMUX_CONF" 2>/dev/null; then
+    cat << 'EOF' >> "$TMUX_CONF"
+
+# --- Zmiana wyglądu paska w przypadku sesji SSH ---
+# Sprawdza czy istnieje zmienna SSH_CLIENT
+if-shell 'test -n "$SSH_CLIENT"' \
+    'set -g status-bg red ; set -g status-fg white ; set -g status-left "#[bg=colour22,fg=white,bold] 🚀 SSH: #H #[default] "'
+EOF
+    echo "Skonfigurowano czerwony pasek Tmux dla połączeń SSH."
+else
+    echo "Konfiguracja SSH w Tmux już istnieje."
+fi
+
 echo "=========================================="
 echo " Installation completed successfully!"
 echo "=========================================="
